@@ -4,25 +4,20 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 
-	"github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
 
 func ConnectDatabse() {
 	var err error
+	var (
+		dbDriver = "mysql"
+		dbSource = "root:password@tcp(mysql:3306)/todo"
+	)
 
-	cfg := mysql.Config{
-		User:                 os.Getenv("DB_USER"),
-		Passwd:               os.Getenv("DB_PASS"),
-		Addr:                 os.Getenv("DB_URL") + ":" + os.Getenv("DB_PORT"),
-		DBName:               os.Getenv("DB_NAME"),
-		AllowNativePasswords: true,
-	}
-
-	db, err = sql.Open("mysql", cfg.FormatDSN())
+	db, err = sql.Open(dbDriver, dbSource)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -5,13 +5,19 @@ import (
 	"kamudrikah/to-do-api/services"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("err loading: %v", err)
+	}
 
-	fmt.Println("Server will start at http://localhost:8000/")
+	fmt.Println("Server will start at http://localhost:" + os.Getenv("APP_PORT") + "/")
 
 	services.ConnectDatabse()
 
@@ -19,5 +25,5 @@ func main() {
 
 	addApproutes(route)
 
-	log.Fatal(http.ListenAndServe(":8000", route))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("APP_PORT"), route))
 }

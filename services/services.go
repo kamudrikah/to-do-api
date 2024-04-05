@@ -7,17 +7,15 @@ import (
 )
 
 func GetTasksFromDB() []byte {
-	var (
-		task  models.Task
-		tasks []models.Task
-	)
+	var tasks []models.Task
 	rows, err := db.Query("SELECT * FROM to_dos ORDER BY id DESC")
 	if err != nil {
 		fmt.Println(err)
 		return nil
 	}
 	for rows.Next() {
-		rows.Scan(&task.ID, &task.Title, &task.Checked, &task.CreatedAt, &task.UpdatedAt)
+		var task models.Task
+		rows.Scan(&task.ID, &task.Title, &task.Checked)
 		tasks = append(tasks, task)
 	}
 	defer rows.Close()

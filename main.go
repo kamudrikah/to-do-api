@@ -8,16 +8,15 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("err loading: %v", err)
+	appPort := os.Getenv("APP_PORT")
+	if appPort == "" {
+		appPort = "8000"
 	}
 
-	fmt.Println("Server will start at http://localhost:" + os.Getenv("APP_PORT") + "/")
+	fmt.Println("Server will start at http://localhost:" + appPort + "/")
 
 	services.ConnectDatabse()
 
@@ -25,5 +24,5 @@ func main() {
 
 	addApproutes(route)
 
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("APP_PORT"), route))
+	log.Fatal(http.ListenAndServe(":"+appPort, route))
 }

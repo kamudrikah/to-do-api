@@ -7,16 +7,12 @@ import (
 	"os"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
 
 func ConnectDatabse() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("err loading: %v", err)
-	}
+	var err error
 
 	cfg := mysql.Config{
 		User:                 os.Getenv("DB_USER"),
